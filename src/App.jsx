@@ -56,12 +56,8 @@ function App() {
 
   useEffect(() => {
     const data = getLocalData("history");
-    if (data) {
-      setHistory(data);
-    } else {
-      setHistory(defaultData);
-      setLocalData("history", defaultData);
-    }
+    if (data) setHistory(data);
+    else saveHistoryToLocal(defaultData);
   }, []);
 
   return (

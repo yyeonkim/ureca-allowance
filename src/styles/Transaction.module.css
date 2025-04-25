@@ -18,8 +18,3 @@
 .transaction .radio label {
   cursor: pointer;
 }
-
-.error {
-  color: red;
-  font-size: 1.2rem;
-}

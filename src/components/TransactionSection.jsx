@@ -2,6 +2,7 @@ import styles from "@/styles/Transaction.module.css";
 import { amountType } from "@/utils/enums.js";
 import { generateRandomDigitID } from "@/utils/random.js";
 import { useState } from "react";
+import ErrorMessage from "./ErrorMessage.jsx";
 
 const initialInput = { type: "income" };
 
@@ -45,7 +46,7 @@ function TransactionSection({ onSubmit }) {
             value={input.description ?? ""}
             onChange={handleChange}
           />
-          {errorMessage && <span className={styles.error}>{errorMessage}</span>}
+          <ErrorMessage message={errorMessage} />
         </div>
         <fieldset className={styles.radio}>
           <div>
