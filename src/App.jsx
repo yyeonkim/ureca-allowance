@@ -36,14 +36,22 @@ function App() {
 
   const handleSubmit = (value) => {
     const newData = [...history, value];
-    setHistory(newData);
-    setLocalData("history", newData);
+    saveHistoryToLocal(newData);
   };
 
   const handleDelete = (id) => {
     const newData = history.filter((item) => item.id !== id);
-    setHistory(newData);
-    setLocalData("history", newData);
+    saveHistoryToLocal(newData);
+  };
+
+  const handleSave = (value) => {
+    const newData = history.map((item) => (item.id === value.id ? value : item));
+    saveHistoryToLocal(newData);
+  };
+
+  const saveHistoryToLocal = (data) => {
+    setHistory(data);
+    setLocalData("history", data);
   };
 
   useEffect(() => {
@@ -68,7 +76,7 @@ function App() {
         {/* 새로운 거래 추가 */}
         <TransactionSection onSubmit={handleSubmit} />
         {/* 내역 */}
-        <HistorySection history={history} onDelete={handleDelete} />
+        <HistorySection history={history} onDelete={handleDelete} onSave={handleSave} />
       </div>
     </main>
   );

@@ -1,0 +1,42 @@
+.list {
+  background-color: white;
+  padding: 1rem;
+  border: 1px solid lightgray;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.list.income {
+  border-right: 4px solid var(--success);
+}
+
+.list.expense {
+  border-right: 4px solid var(--error);
+}
+
+.list input {
+  font-size: 1.4rem;
+  padding: 0.8rem 1rem;
+}
+
+.list input.amount {
+  width: 10rem;
+}
+
+.list > div {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
+  flex-shrink: 0;
+}
+
+.list i {
+  font-size: 1.6rem;
+  cursor: pointer;
+}
+
+.list i.trash {
+  color: red;
+}

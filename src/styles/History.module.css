@@ -9,37 +9,3 @@
   max-height: 19.84rem;
   overflow-y: auto;
 }
-
-.history li {
-  background-color: white;
-  padding: 1rem;
-  border: 1px solid lightgray;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.history li.income {
-  border-right: 4px solid var(--success);
-}
-
-.history li.expense {
-  border-right: 4px solid var(--error);
-}
-
-.history li > div {
-  display: flex;
-  align-items: center;
-  gap: 1.2rem;
-  flex-shrink: 0;
-}
-
-.history i {
-  font-size: 1.6rem;
-  cursor: pointer;
-}
-
-.history i:last-of-type {
-  color: red;
-}
