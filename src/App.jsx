@@ -2,25 +2,26 @@ import styles from "@/styles/App.module.css";
 import { useEffect, useState } from "react";
 import { formatToWon, formatWithSign } from "./utils/amountFomatter.js";
 import { amountType } from "./utils/enums.js";
-import { getDataByKey, setData } from "./utils/localStorage.js";
+import { getLocalData, setLocalData } from "./utils/localStorage.js";
+import { generateRandomDigitID } from "./utils/random.js";
 
 const defaultData = [
   {
-    id: 1,
+    id: generateRandomDigitID(),
     description: "용돈",
     amount: 300000,
     type: "income",
     date: "2025-04-25",
   },
   {
-    id: 2,
+    id: generateRandomDigitID(),
     description: "영화 관람",
     amount: 11000,
     type: "expense",
     date: "2025-04-25",
   },
   {
-    id: 3,
+    id: generateRandomDigitID(),
     description: "식비",
     amount: 25000,
     type: "expense",
@@ -77,19 +78,28 @@ function App() {
     if (input.description.trim().length === 0) return;
 
     // 저장
-    const newData = [...history, input];
+    const newData = [...history, { ...input, id: generateRandomDigitID() }];
     setHistory(newData);
-    setData("history", newData);
     setInput(defaultInput);
+    setLocalData("history", newData);
+  };
+
+  const handleDelete = (id) => {
+    const confirm = window.confirm("삭제하시겠습니까?");
+    if (!confirm) return;
+
+    const newData = history.filter((item) => item.id !== id);
+    setHistory(newData);
+    setLocalData("history", newData);
   };
 
   useEffect(() => {
-    const data = getDataByKey("history");
+    const data = getLocalData("history");
     if (data) {
       setHistory(data);
     } else {
       setHistory(defaultData);
-      setData("history", defaultData);
+      setLocalData("history", defaultData);
     }
   }, []);
 
@@ -127,6 +137,7 @@ function App() {
               name="description"
               required
               placeholder="내용 입력"
+              maxLength={100}
               value={input.description ?? ""}
               onChange={handleChange}
             />
@@ -149,7 +160,7 @@ function App() {
                   name="type"
                   value={amountType.EXPENSE}
                   checked={input.type === amountType.EXPENSE}
-                  autocomplete="off"
+                  autoComplete="off"
                   onChange={handleChange}
                 />
                 <label htmlFor="expense">지출</label>
@@ -177,8 +188,17 @@ function App() {
                 key={item.id}
                 className={item.type === amountType.INCOME ? styles.income : styles.expense}
               >
-                <span>{item.description}</span>
-                <span>{formatWithSign(item.type, item.amount)}</span>
+                <span className="truncate">{item.description}</span>
+                <div>
+                  <span>{formatWithSign(item.type, item.amount)}</span>
+                  <i className="bi bi-pencil" aria-label="수정" role="button" />
+                  <i
+                    className="bi bi-trash3"
+                    aria-label="삭제"
+                    role="button"
+                    onClick={() => handleDelete(item.id)}
+                  />
+                </div>
               </li>
             ))}
           </ul>
