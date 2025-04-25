@@ -1,0 +1,25 @@
+.transaction h2 {
+  margin-bottom: 1.6rem;
+}
+
+.transaction form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  position: relative;
+}
+
+.transaction .radio {
+  display: flex;
+  align-items: center;
+  gap: 1.6rem;
+}
+
+.transaction .radio label {
+  cursor: pointer;
+}
+
+.error {
+  color: red;
+  font-size: 1.2rem;
+}

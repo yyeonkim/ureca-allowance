@@ -1,0 +1,33 @@
+.incomeExpense {
+  border: 1px solid lightgray;
+  background-color: white;
+  padding: 2.8rem 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.incomeExpense > div {
+  width: 50%;
+  text-align: center;
+}
+
+.incomeExpense > div:first-of-type {
+  border-right: 1px solid lightgray;
+}
+
+.incomeExpense h2 {
+  margin-bottom: 1rem;
+}
+
+.incomeExpense span {
+  font-size: 1.8rem;
+}
+
+.incomeExpense span.income {
+  color: var(--success);
+}
+
+.incomeExpense span.expense {
+  color: var(--error);
+}
