@@ -1,4 +1,5 @@
 import styles from "@/styles/Transaction.module.css";
+import { formatDate } from "@/utils/date.js";
 import { amountType } from "@/utils/enums.js";
 import { generateRandomDigitID } from "@/utils/random.js";
 import { useState } from "react";
@@ -27,7 +28,7 @@ function TransactionSection({ onSubmit }) {
 
     // 저장
     setErrorMessage(null);
-    onSubmit({ ...input, id: generateRandomDigitID() });
+    onSubmit({ ...input, id: generateRandomDigitID(), date: formatDate(Date.now()) });
     setInput(initialInput);
   };
 
