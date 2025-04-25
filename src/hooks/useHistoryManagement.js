@@ -1,3 +1,4 @@
+import { amountType } from "@/utils/enums.js";
 import { getLocalData, setLocalData } from "@/utils/localStorage.js";
 import { generateRandomDigitID } from "@/utils/random.js";
 import { useState } from "react";
@@ -7,21 +8,21 @@ const DEFAULT_DATA = [
     id: generateRandomDigitID(),
     description: "용돈",
     amount: 300000,
-    type: "income",
+    type: amountType.INCOME,
     date: "2025-04-25",
   },
   {
     id: generateRandomDigitID(),
     description: "영화 관람",
     amount: 11000,
-    type: "expense",
+    type: amountType.EXPENSE,
     date: "2025-04-25",
   },
   {
     id: generateRandomDigitID(),
     description: "식비",
     amount: 25000,
-    type: "expense",
+    type: amountType.EXPENSE,
     date: "2025-04-26",
   },
 ];

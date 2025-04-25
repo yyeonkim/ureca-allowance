@@ -5,7 +5,7 @@ import { generateRandomDigitID } from "@/utils/random.js";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage.jsx";
 
-const initialInput = { type: "income" };
+const initialInput = { type: amountType.INCOME };
 
 function TransactionSection({ onSubmit }) {
   const [input, setInput] = useState(initialInput); // 새로운 거래
