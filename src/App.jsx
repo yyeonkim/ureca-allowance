@@ -24,6 +24,7 @@ function App() {
   };
 
   useEffect(() => {
+    // 초기 내역 로드
     const data = loadHistory();
     setHistory(data);
   }, []);

@@ -35,6 +35,7 @@ function TransactionSection({ onSubmit }) {
     <section className={styles.transaction}>
       <h2>새로운 거래 추가</h2>
       <form onSubmit={handleSubmit}>
+        {/* 내용 */}
         <div>
           <input
             className={styles.notify}
@@ -48,6 +49,7 @@ function TransactionSection({ onSubmit }) {
           />
           <ErrorMessage message={errorMessage} />
         </div>
+        {/* 수입/지출 */}
         <fieldset className={styles.radio}>
           <div>
             <input
@@ -73,6 +75,7 @@ function TransactionSection({ onSubmit }) {
             <label htmlFor="expense">지출</label>
           </div>
         </fieldset>
+        {/* 금액 */}
         <input
           type="number"
           name="amount"

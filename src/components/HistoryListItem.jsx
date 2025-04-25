@@ -67,6 +67,7 @@ function HistoryListItem({ item, onDelete, onSave }) {
         ) : (
           <span className="truncate">{item.description}</span>
         )}
+
         <div>
           {/* 금액 */}
           {isEdit ? (
@@ -83,6 +84,7 @@ function HistoryListItem({ item, onDelete, onSave }) {
             <span>{formatWithSign(item.type, item.amount)}</span>
           )}
 
+          {/* Actions */}
           {isEdit ? (
             <i
               className={`bi bi-check-lg ${styles.check}`}
@@ -108,6 +110,7 @@ function HistoryListItem({ item, onDelete, onSave }) {
           )}
         </div>
       </li>
+
       <ErrorMessage message={errorMessage} />
       <BaseModal isOpen={isOpen} onClose={closeModal} className={styles.modal}>
         <p>삭제하시겠습니까?</p>
