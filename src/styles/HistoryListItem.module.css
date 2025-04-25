@@ -40,3 +40,19 @@
 .list i.trash {
   color: red;
 }
+
+.modal p {
+  text-align: center;
+}
+
+.modal > div {
+  margin-top: 2.4rem;
+  display: flex;
+  align-items: stretch;
+  gap: 2rem;
+}
+
+.modal button {
+  font-size: 1.4rem;
+  padding: 1.2rem;
+}

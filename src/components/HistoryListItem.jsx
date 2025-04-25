@@ -1,13 +1,17 @@
+import useModal from "@/hooks/useModal.js";
 import styles from "@/styles/HistoryListItem.module.css";
 import { formatWithSign } from "@/utils/amountFomatter.js";
 import { amountType } from "@/utils/enums.js";
 import { useState } from "react";
 import ErrorMessage from "./ErrorMessage.jsx";
+import BaseModal from "./modal/BaseModal.jsx";
 
 function HistoryListItem({ item, onDelete, onSave }) {
   const [isEdit, setIsEdit] = useState(false);
   const [input, setInput] = useState(item);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const { isOpen, openModal, closeModal } = useModal();
 
   const handleChange = (e) => {
     setInput((prev) => {
@@ -17,9 +21,8 @@ function HistoryListItem({ item, onDelete, onSave }) {
   };
 
   const handleDelete = (id) => {
-    const confirm = window.confirm("삭제하시겠습니까?");
-    if (!confirm) return;
     onDelete(id);
+    closeModal();
   };
 
   const handleSave = () => {
@@ -99,13 +102,24 @@ function HistoryListItem({ item, onDelete, onSave }) {
                 className={`bi bi-trash3 ${styles.trash}`}
                 aria-label="삭제"
                 role="button"
-                onClick={() => handleDelete(item.id)}
+                onClick={() => openModal()}
               />
             </>
           )}
         </div>
       </li>
       <ErrorMessage message={errorMessage} />
+      <BaseModal isOpen={isOpen} onClose={closeModal} className={styles.modal}>
+        <p>삭제하시겠습니까?</p>
+        <div>
+          <button type="button" onClick={() => handleDelete(item.id)}>
+            확인
+          </button>
+          <button type="button" onClick={closeModal}>
+            취소
+          </button>
+        </div>
+      </BaseModal>
     </>
   );
 }
