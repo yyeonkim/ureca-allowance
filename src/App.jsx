@@ -29,11 +29,12 @@ const defaultData = [
   },
 ];
 
-const defaultInput = { type: "income" };
+const initialInput = { type: "income" };
 
 function App() {
   const [history, setHistory] = useState([]); // 내역
-  const [input, setInput] = useState(defaultInput); // 새로운 거래
+  const [input, setInput] = useState(initialInput); // 새로운 거래
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const calculateBalance = () => {
     const balance = history.reduce((acc, curr) => {
@@ -75,12 +76,16 @@ function App() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // 유효성 검사
-    if (input.description.trim().length === 0) return;
+    if (input.description.trim().length === 0) {
+      setErrorMessage("내용을 입력해주세요.");
+      return;
+    }
 
     // 저장
     const newData = [...history, { ...input, id: generateRandomDigitID() }];
+    setErrorMessage(null);
     setHistory(newData);
-    setInput(defaultInput);
+    setInput(initialInput);
     setLocalData("history", newData);
   };
 
@@ -132,15 +137,19 @@ function App() {
         <section className={styles.newTransaction}>
           <h2>새로운 거래 추가</h2>
           <form onSubmit={handleSubmit}>
-            <input
-              type="text"
-              name="description"
-              required
-              placeholder="내용 입력"
-              maxLength={100}
-              value={input.description ?? ""}
-              onChange={handleChange}
-            />
+            <div>
+              <input
+                className={styles.notify}
+                type="text"
+                name="description"
+                required
+                placeholder="내용 입력"
+                maxLength={100}
+                value={input.description ?? ""}
+                onChange={handleChange}
+              />
+              {errorMessage && <span className={styles.error}>{errorMessage}</span>}
+            </div>
             <fieldset className={styles.radio}>
               <div>
                 <input
@@ -191,7 +200,7 @@ function App() {
                 <span className="truncate">{item.description}</span>
                 <div>
                   <span>{formatWithSign(item.type, item.amount)}</span>
-                  <i className="bi bi-pencil" aria-label="수정" role="button" />
+                  {/* <i className="bi bi-pencil" aria-label="수정" role="button" /> */}
                   <i
                     className="bi bi-trash3"
                     aria-label="삭제"

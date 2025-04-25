@@ -8,6 +8,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  base: "/ureca-allowance/",
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"],
     alias: [{ find: "@", replacement: path.resolve(__dirname, "src") }],
