@@ -2,7 +2,7 @@ import styles from "@/styles/App.module.css";
 import { useEffect, useState } from "react";
 import { formatToWon, formatWithSign } from "./utils/amountFomatter.js";
 import { amountType } from "./utils/enums.js";
-import { getDataByKey } from "./utils/localStorage.js";
+import { getDataByKey, setData } from "./utils/localStorage.js";
 
 const defaultData = [
   {
@@ -28,8 +28,11 @@ const defaultData = [
   },
 ];
 
+const defaultInput = { type: "income" };
+
 function App() {
   const [history, setHistory] = useState([]); // 내역
+  const [input, setInput] = useState(defaultInput); // 새로운 거래
 
   const calculateBalance = () => {
     const balance = history.reduce((acc, curr) => {
@@ -61,11 +64,36 @@ function App() {
     return expense;
   };
 
+  const handleChange = (e) => {
+    setInput((prev) => {
+      const { name, value, type } = e.target;
+      return { ...prev, [name]: type === "number" ? Number(value) : value };
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    // 유효성 검사
+    if (input.description.trim().length === 0) return;
+
+    // 저장
+    const newData = [...history, input];
+    setHistory(newData);
+    setData("history", newData);
+    setInput(defaultInput);
+  };
+
   useEffect(() => {
     const data = getDataByKey("history");
-    if (data) setHistory(data);
-    else setHistory(defaultData);
+    if (data) {
+      setHistory(data);
+    } else {
+      setHistory(defaultData);
+      setData("history", defaultData);
+    }
   }, []);
+
+  console.log(input);
 
   return (
     <main className={styles.main}>
@@ -93,25 +121,49 @@ function App() {
         {/* 새로운 거래 추가 */}
         <section className={styles.newTransaction}>
           <h2>새로운 거래 추가</h2>
-          <form>
-            <input type="text" name="description" required placeholder="내용 입력" />
-            <div className={styles.radio}>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              name="description"
+              required
+              placeholder="내용 입력"
+              value={input.description ?? ""}
+              onChange={handleChange}
+            />
+            <fieldset className={styles.radio}>
               <div>
                 <input
                   type="radio"
                   id="income"
                   name="type"
                   value={amountType.INCOME}
-                  defaultChecked
+                  checked={input.type === amountType.INCOME}
+                  onChange={handleChange}
                 />
-                <label for="income">수입</label>
+                <label htmlFor="income">수입</label>
               </div>
               <div>
-                <input type="radio" id="expense" name="type" value={amountType.EXPENSE} />
-                <label for="expense">지출</label>
+                <input
+                  type="radio"
+                  id="expense"
+                  name="type"
+                  value={amountType.EXPENSE}
+                  checked={input.type === amountType.EXPENSE}
+                  autocomplete="off"
+                  onChange={handleChange}
+                />
+                <label htmlFor="expense">지출</label>
               </div>
-            </div>
-            <input type="number" name="amount" required min={1} placeholder="금액 입력" />
+            </fieldset>
+            <input
+              type="number"
+              name="amount"
+              required
+              min={1}
+              placeholder="금액 입력"
+              value={input.amount ?? ""}
+              onChange={handleChange}
+            />
             <button>거래 추가</button>
           </form>
         </section>
@@ -121,7 +173,10 @@ function App() {
           <h2>내역</h2>
           <ul>
             {history.map((item) => (
-              <li className={item.type === amountType.INCOME ? styles.income : styles.expense}>
+              <li
+                key={item.id}
+                className={item.type === amountType.INCOME ? styles.income : styles.expense}
+              >
                 <span>{item.description}</span>
                 <span>{formatWithSign(item.type, item.amount)}</span>
               </li>
