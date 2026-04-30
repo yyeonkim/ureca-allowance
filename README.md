@@ -85,10 +85,11 @@ const transactions = [
 3. LocalStorage를 위한 커스텀 훅 작성
 4. 적절한 에러 처리 구현
 
-## TEST
-feature commit 1
-
 ## 제출 요구사항
 
 1. 소스 코드 (GitHub 저장소)
 2. 실행 가능한 배포 링크
+
+## TEST
+feature commit 1
+feature commit 2
